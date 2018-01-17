@@ -1,6 +1,5 @@
 package alda.linear;
 
-import java.lang.reflect.Array;
 import java.util.Iterator;
 
 
@@ -15,7 +14,11 @@ public class MyALDAList<E> implements ALDAList {
 
     //Todo, är det verkligen rätt att casta här?
     @Override
-    public void add(Object element) {
+    public void add(Object element) throws NullPointerException {
+
+        if (element == null){
+            throw new NullPointerException();
+        }
 
         if (first == null){
             first = new Node<E>((E) element);
@@ -28,13 +31,20 @@ public class MyALDAList<E> implements ALDAList {
     }
 
     @Override
-    public void add(int index, Object element) throws IndexOutOfBoundsException{
+    public void add(int index, Object element) throws IndexOutOfBoundsException, NullPointerException{
+
+        if (element == null){
+            throw new NullPointerException();
+        }
+
         Node<E> newNode = new Node<E>((E) element);
 
         if(first == null){
             first = newNode;
             last = newNode;
         }
+
+
 
         int counter = 0;
             for (Node<E> temp = first; temp != null; temp = temp.next, counter++) {
@@ -52,6 +62,9 @@ public class MyALDAList<E> implements ALDAList {
 
                 }
             }
+        if (counter > size()){
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
@@ -111,6 +124,7 @@ public class MyALDAList<E> implements ALDAList {
 
     @Override
     public void clear() {
+
 
     }
 
