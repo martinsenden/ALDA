@@ -1,6 +1,7 @@
 package alda.linear;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -37,6 +38,10 @@ public class MyALDAList<E> implements ALDAList {
             throw new NullPointerException();
         }
 
+        if (index > size() || index < 0){
+            throw new IndexOutOfBoundsException();
+        }
+
         Node<E> newNode = new Node<E>((E) element);
 
         if(first == null){
@@ -62,26 +67,63 @@ public class MyALDAList<E> implements ALDAList {
 
                 }
             }
-        if (counter > size()){
-            throw new IndexOutOfBoundsException();
-        }
     }
 
     @Override
-    public Object remove(int index) {
-        int counter = 0;
+    public Object remove(int index) throws IndexOutOfBoundsException {
 
-        for(Node<E> temp=first; temp!=null; temp=temp.next, counter++){
-            if(counter == index){
-                return temp.data;
-            }
+        if (index > size() || index < 0){
+            throw new IndexOutOfBoundsException();
         }
 
-        return null;
+        int counter = 0;
+            Node<E> deletedNode;
+            if (index == 0){
+                deletedNode = first;
+                first = first.next;
+                return deletedNode.data;
+
+            }
+
+            for (Node<E> temp = first; temp != null; temp = temp.next, counter++){
+                if (counter+1 == index && temp.next == last){
+                    deletedNode = temp.next;
+                    temp.next = null;
+                    last = temp;
+                    return deletedNode.data;
+                }
+                if (counter+1 == index){
+                    deletedNode = temp.next;
+                    temp.next = temp.next.next;
+                    return deletedNode.data;
+                }
+            }
+            return null;
     }
 
     @Override
     public boolean remove(Object element) {
+        if(!contains(element)){
+            return false;
+        }
+        if (first.data == element){
+            first = first.next;
+            return true;
+
+        }
+
+        for (Node<E> temp = first; temp != null; temp = temp.next) {
+            if(temp.next.data == element && temp.next == last){
+                temp.next = null;
+                last = temp;
+                return true;
+            }
+            if(temp.next.data == element){
+                temp.next = temp.next.next;
+                return true;
+
+            }
+        }
         return false;
     }
 
@@ -125,22 +167,19 @@ public class MyALDAList<E> implements ALDAList {
     @Override
     public void clear() {
 
-
     }
 
     @Override
     public int size() {
         int counter = 0;
 
-        for(Node<E> temp=first; temp!=null; temp=temp.next, counter++){
-
-        }
+        for(Node<E> temp=first; temp!=null; temp=temp.next, counter++);
         return counter;
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public ALDAIterator iterator() {
+        return new ALDAIterator();
     }
 
     @Override
@@ -166,6 +205,36 @@ public class MyALDAList<E> implements ALDAList {
 
         public Node(E data){
             this.data = data;
+        }
+    }
+
+    private class ALDAIterator implements Iterator{
+
+        private Node<E> currentNode = first;
+
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+            //Hur fan göra det här? Borde vara .next Om vi tar bort .next fungerar BasicIteration
+        }
+
+        @Override
+        public Object next() throws NoSuchElementException{
+
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+
+            E nextData = currentNode.data;
+            currentNode = currentNode.next;
+
+            return nextData;
+        }
+
+        @Override
+        public void remove(){
+
         }
     }
 }

@@ -11,24 +11,24 @@ import static org.junit.Assert.*;
 /**
  * This class contains JUnit test cases that you can use to test your
  * implementation of the list.
- * 
+ *
  * The reason most of the test cases are commented (i.e. hidden) is that it gets
  * too messy if you try to make all of them work at the same time. A better way
  * is to make one test case work, and the uncomment the next one, leaving the
  * ones already working in place to catch any bugs in already working code that
  * might sneek in.
- * 
+ *
  * When all the tests go through you will *PROBABLY* have a solution that
  * passes, i.e. if you also fulfills the requirements that can't be tested, such
  * as usage of the correct data structure, etc. Note though that the test cases
  * doesn't cover every nook and cranny, so feel free to test it even more. If we
  * find anything wrong with the code that these tests doesn't cover, then this
  * usually means a failed assignment.
- * 
+ *
  * Depending on settings you may get warnings for import statements that isn't
  * used. These are used by tests that orginally are commented out, so leave the
  * import statments in place.
- * 
+ *
  * @author Henrik
  */
 public class ALDAListTest {
